@@ -10,8 +10,6 @@ const app = createApp(App)
 // 全局注册图标 牺牲一点性能 重新命名成以el-icon-xxx开头
 for(let i in Icons){
   // 注册组件
-  console.log(`el-icon-${toLine(i)}`);
-  
   app.component(`el-icon-${toLine(i)}`,(Icons as any)[i])
   // console.log((Icons as any)[i]);
 }
