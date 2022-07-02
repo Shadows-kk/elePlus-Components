@@ -1,0 +1,15 @@
+// 修改组件库的样式。
+// 我们需要修改组件的样式，在浏览器调试生效但
+// 是在文件中修改不生效的情况下
+
+// 1.需要自定义一个类名空间 如choose-icon-el-dialog__body-height
+// 2.在浏览器调试样式
+// 3.把调试好的类名放在这个类名里面
+// 4.在app.vue里面引入这个文件
+// 5.在组件内需要改样式的元素的父元素上添加上这个类名
+.choose-icon-el-dialog__body-height {
+  .el-dialog__body{
+    height: 500px;
+    overflow: scroll;
+  }
+}

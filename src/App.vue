@@ -3,21 +3,6 @@
 </template>
 
 <style lang="scss">
-* {
-  padding: 0;
-  margin: 0;
-}
-// 图标都是svg格式，统一设置成1em大小
-svg {
-  width: 1em;
-  height: 1em;
-}
-// 撑满屏幕
-html,
-body,
-#app,
-.el-container,
-.el-menu {
-  height: 100%;
-}
+@import "./style/base.scss";
+@import "./style/ui.scss";
 </style>
