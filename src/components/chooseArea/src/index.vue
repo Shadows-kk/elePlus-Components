@@ -93,6 +93,7 @@ watch(
   (val) => {
     if (val) {
       let provinceData: Data = {
+        // 注意：province.value必须存在时才能进行find，否则修改省时会报错
         name:
           province.value &&
           allArea.value.find((item) => item.code === province.value)!.name,
@@ -108,6 +109,7 @@ watch(
         name: val && selectedArea.value.find((item) => item.code === val)!.name,
         code: area.value,
       };
+      // 向父组件派发事件，传递数据
       emits("change", {
         province: provinceData,
         city: cityData,
