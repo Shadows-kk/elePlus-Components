@@ -26,4 +26,7 @@ let isCollapse = ref(false);
   padding: 0;
   border-bottom: 1px solid #eee;
 }
+.el-main {
+  /* margin-left: 100px; */
+}
 </style>
