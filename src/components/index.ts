@@ -5,13 +5,15 @@ import trend from './trend'
 import notification from './notification'
 import list from './list'
 import menus from './menus'
+import progress from './progress'
 const components = [
   chooseArea,
   chooseIcon,
   trend,
   notification,
   list,
-  menus
+  menus,
+  progress
 ]
 export default {
   install(app:App){

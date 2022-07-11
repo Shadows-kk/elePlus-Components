@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-menu
-      class=".el-menu-vertical-demo"
+      class="el-menu-vertical-demo"
       :default-active="defaultActive"
       :router="router"
       v-bind="$attrs"
@@ -82,6 +82,8 @@ const props = defineProps({
 <style scoped>
 svg {
   margin-right: 10px;
+  width: 1em;
+  height: 1em;
 }
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 200px;
