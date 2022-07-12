@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="progress-circle-svg">
     <el-progress :percentage="t" v-bind="$attrs"></el-progress>
   </div>
 </template>
@@ -39,4 +39,9 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+svg {
+  width: 100% !important;
+  height: 100% !important;
+}
+</style>
