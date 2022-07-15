@@ -1,12 +1,14 @@
 <template>
-  <div class="trend basic">
+  <div class="trend">
     <h3>基本组件：</h3>
 
-    <div>
-      <trend title="上升" type="up">上升营业额</trend>
-    </div>
-    <div>
-      <trend title="下降" type="down"></trend>
+    <div class="basic">
+      <div>
+        <trend title="上升" type="up">上升营业额</trend>
+      </div>
+      <div>
+        <trend title="下降" type="down"></trend>
+      </div>
     </div>
   </div>
   <div class="trend reverse">
@@ -41,13 +43,18 @@
 
 <script setup lang="ts"></script>
 
-<style scoped>
+<style scoped lang="scss">
 .trend {
   display: flex;
   align-items: center;
-  margin-top: 40px;
+  .basic {
+    display: flex;
+  }
 }
 .trend div {
   margin-right: 10px;
+}
+h3 {
+  margin-right: 20px;
 }
 </style>
