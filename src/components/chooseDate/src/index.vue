@@ -1,5 +1,5 @@
 <template>
-  <div style="display: flex">
+  <div style="display: flex" class="ele-cpn-wrapper">
     <div style="margin-right: 10px">
       <el-date-picker
         v-model="startDate"

@@ -41,9 +41,10 @@
         <div class="city">
           <div
             class="city-item"
-            @click="clickLetter(item)"
+            @click="clickLetter(item, index)"
             v-for="(item, index) in Object.keys(cities)"
             :key="index"
+            :class="{ acitiveItem: isActiveIndex === index }"
           >
             {{ item }}
           </div>
@@ -74,9 +75,10 @@
         <div class="province">
           <div
             class="province-item"
-            @click="clickLetter(item)"
+            @click="clickLetter(item, index)"
             v-for="(item, index) in Object.keys(provinces)"
             :key="index"
+            :class="{ acitiveItem: isActiveIndex === index }"
           >
             {{ item }}
           </div>
@@ -124,6 +126,7 @@ const radioValue = ref<string>("按城市");
 // 下拉框的值
 const selectValue = ref<string>("");
 const options = ref<Icity[]>([]);
+let isActiveIndex = ref<number>(0);
 // 所有城市数据
 const cities = ref(city.cities);
 // 所有省份数据
@@ -149,7 +152,7 @@ onMounted(() => {
 watch(
   () => radioValue.value,
   (val) => {
-    console.log(val);
+    isActiveIndex.value = 0;
   }
 );
 
@@ -158,7 +161,9 @@ const handleClick = () => {
   visible.value = !visible.value;
 };
 // 点击字母
-const clickLetter = (item) => {
+const clickLetter = (item, index) => {
+  isActiveIndex.value = index;
+
   const dom = document.getElementById(item);
   // 方式一 使用scroll滚动组件的api
   // scrollbarRef.value!.setScrollTop(dom.offsetTop);
@@ -255,6 +260,11 @@ const changeSelect = (val) => {
       border: 1px solid #eee;
       cursor: pointer;
     }
+  }
+  .acitiveItem {
+    background-color: #46a0fc;
+    border: none;
+    color: #fff;
   }
   .scrollbar {
     margin-top: 10px;

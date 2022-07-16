@@ -9,6 +9,9 @@ import progress from './progress'
 import chooseTime from './chooseTime'
 import chooseDate from './chooseDate'
 import chooseCity from './chooseCity'
+import calendar from './calendar'
+import form from './form'
+import table from './table'
 const components = [
   chooseArea,
   chooseIcon,
@@ -19,7 +22,10 @@ const components = [
   progress,
   chooseTime,
   chooseDate,
-  chooseCity
+  chooseCity,
+  form,
+  calendar,
+  table
 ]
 export default {
   install(app:App){
