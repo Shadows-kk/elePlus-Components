@@ -1,13 +1,42 @@
 <template>
   <div>
-    <config-form :options="options" label-width="100px"></config-form>
+    <config-form
+      :options="options"
+      label-width="100px"
+      @on-change="onChange"
+      @on-preview="handlePreview"
+      @on-remove="handleRemove"
+      @before-remove="beforeRemove"
+      @on-exceed="handleExceed"
+      @before-upload="beforeUpload"
+      @on-success="onSuccess"
+    >
+      <!-- 上传组件插槽内容 -->
+      <template #uploadArea>
+        <el-button type="primary">上传文件</el-button>
+      </template>
+      <template #uploadTips>
+        <div style="color: #ccc; font-size: 12px; margin-left: 10px">
+          jpg/png files with a size less than 500KB.
+        </div>
+      </template>
+      <!-- 表单操作按钮 -->
+      <template #action="scope">
+        <el-button type="primary" @click="onSubmit(scope)">提交</el-button>
+        <el-button @click="resetForm(scope)">重置</el-button>
+      </template>
+    </config-form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { FormOptions } from "../../components/form/src/type/types";
-
-const options: FormOptions[] = [
+import { ElMessage, ElMessageBox } from "element-plus";
+import { IFormInstance, IFormOptions } from "../../components/form/src/type/types";
+export interface IScope {
+  form: IFormInstance;
+  model: any;
+}
+const options: IFormOptions[] = [
   {
     type: "input",
     value: "",
@@ -154,7 +183,68 @@ const options: FormOptions[] = [
       },
     ],
   },
+  {
+    type: "upload",
+    label: "上传",
+    prop: "pic",
+    uploadAttrs: {
+      action: "https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15",
+      multiple: true,
+      limit: 3,
+    },
+    rules: [
+      // {
+      //   required: true,
+      //   message: "图片不能为空",
+      //   trigger: "blur",
+      // },
+    ],
+  },
 ];
+const onChange = (val) => {
+  console.log(val.uploadFile, val.uploadFiles);
+};
+const beforeUpload = (rawFile) => {
+  console.log(rawFile);
+};
+const handleRemove = (val) => {
+  console.log(val.file, val.uploadFiles);
+};
+
+const handlePreview = (uploadFile) => {
+  console.log(uploadFile);
+};
+
+const handleExceed = (val) => {
+  ElMessage.warning(
+    `The limit is 3, you selected ${val.files.length} files this time, add up to ${
+      val.files.length + val.uploadFiles.length
+    } totally`
+  );
+};
+
+const beforeRemove = (val) => {
+  return ElMessageBox.confirm(`Cancel the transfert of ${val.uploadFile.name} ?`).then(
+    () => true,
+    () => false
+  );
+};
+const onSuccess = (val) => {
+  console.log("success" + val.response, val.uploadFile, val.uploadFiles);
+};
+const onSubmit = (scope: IScope) => {
+  scope.form.validate((valid) => {
+    if (valid) {
+      console.log(valid);
+      ElMessage.success("提交成功");
+    } else {
+      ElMessage.error("表单填写有误,请重新填写");
+    }
+  });
+};
+const resetForm = (scope: IScope) => {
+  scope.form.resetFields();
+};
 </script>
 
 <style scoped></style>

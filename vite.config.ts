@@ -8,7 +8,14 @@ export default defineConfig({
   plugins: [vue(),Vuejsx()],
   server:{
     port:8080,
-    host:'0.0.0.0'
+    host:'0.0.0.0',
+    proxy: {
+      '/api': {
+        target: 'https://run.mocky.io',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
   },
   resolve:{
     alias:{
