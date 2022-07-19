@@ -251,10 +251,8 @@ const onSuccess = (val) => {
   console.log("success" + val.response, val.uploadFile, val.uploadFiles);
 };
 const onSubmit = (scope: IScope) => {
-  console.log(scope.model);
   scope.form.validate((valid) => {
     if (valid) {
-      console.log(valid);
       ElMessage.success("提交成功");
     } else {
       ElMessage.error("表单填写有误,请重新填写");

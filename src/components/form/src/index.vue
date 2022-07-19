@@ -142,6 +142,14 @@ const initFormDate = () => {
     rules.value = cloneDeep(r);
   }
 };
+// 表单验证
+const validate = () => {
+  return form.value.validate;
+};
+// 获取表单数据
+const getFormData = () => {
+  return model.value;
+};
 // 重写重置表单的方法，自定义的富文本直接用表单的重置方法不生效
 const resetFields = () => {
   // 1.重置element-plus的表单
@@ -202,9 +210,11 @@ watch(
 onMounted(() => {
   initFormDate();
 });
-// 分发属性和方法
+// 分发组件的方法给父组件
 defineExpose({
   resetFields,
+  validate,
+  getFormData,
 });
 </script>
 
