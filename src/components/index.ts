@@ -11,6 +11,7 @@ import chooseDate from './chooseDate'
 import chooseCity from './chooseCity'
 import calendar from './calendar'
 import form from './form'
+import modelForm from './modelForm'
 import table from './table'
 const components = [
   chooseArea,
@@ -25,7 +26,8 @@ const components = [
   chooseCity,
   form,
   calendar,
-  table
+  table,
+  modelForm
 ]
 export default {
   install(app:App){

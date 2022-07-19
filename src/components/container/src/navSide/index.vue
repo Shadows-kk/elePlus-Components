@@ -69,6 +69,11 @@ let data = [
     icon: "Notebook",
   },
   {
+    name: "弹出表单",
+    index: "/modelForm",
+    icon: "Notification",
+  },
+  {
     name: "表格",
     index: "/table",
     icon: "List",

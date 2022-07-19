@@ -1,6 +1,7 @@
 <template>
   <div>
     <config-form
+      ref="form"
       :options="options"
       label-width="100px"
       @on-change="onChange"
@@ -31,11 +32,14 @@
 
 <script setup lang="ts">
 import { ElMessage, ElMessageBox } from "element-plus";
+import { ref } from "vue";
 import { IFormInstance, IFormOptions } from "../../components/form/src/type/types";
 export interface IScope {
   form: IFormInstance;
   model: any;
 }
+const form = ref(null);
+
 const options: IFormOptions[] = [
   {
     type: "input",
@@ -200,6 +204,20 @@ const options: IFormOptions[] = [
       // },
     ],
   },
+  {
+    type: "editor",
+    value: "初始内容",
+    label: "描述",
+    prop: "desc",
+    placeholder: "请输入描述内容",
+    rules: [
+      {
+        required: true,
+        message: "描述不能为空",
+        trigger: "blur",
+      },
+    ],
+  },
 ];
 const onChange = (val) => {
   console.log(val.uploadFile, val.uploadFiles);
@@ -233,6 +251,7 @@ const onSuccess = (val) => {
   console.log("success" + val.response, val.uploadFile, val.uploadFiles);
 };
 const onSubmit = (scope: IScope) => {
+  console.log(scope.model);
   scope.form.validate((valid) => {
     if (valid) {
       console.log(valid);
@@ -243,7 +262,9 @@ const onSubmit = (scope: IScope) => {
   });
 };
 const resetForm = (scope: IScope) => {
-  scope.form.resetFields();
+  // scope.form.resetFields();
+  // 通过子组件的defineExpose分发出来的方法
+  form.value.resetFields();
 };
 </script>
 

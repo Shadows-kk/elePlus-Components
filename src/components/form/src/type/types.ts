@@ -8,7 +8,7 @@ export interface IFormOptions {
   // 表单显示的元素
   type: 'autocomplete' | 'cascader' | 'checkbox'| 'checkbox-group' | 'checkbox-button' |
    'color-picker'|'date-picker'|'input'|'input-number'|'radio-group'|'radio'| 'radio-button' 
-   |'rate'|'select'|'option'|'slider'|'switch'|'time-picker'|'time-select'|'transfer'|'upload',
+   |'rate'|'select'|'option'|'slider'|'switch'|'time-picker'|'time-select'|'transfer'|'upload'|'editor',
   // 表单项的值,上传组件没有value
   value?:any,
   // 表单项label
@@ -27,7 +27,7 @@ export interface IFormOptions {
     style?:CSSProperties
   },
   // 表单项的子元素
-  children?:FormOptions[]
+  children?:IFormOptions[]
   // 单独处理上传组件的属性和方法
   uploadAttrs?:{
     action:string,
