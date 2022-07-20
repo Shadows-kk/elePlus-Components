@@ -1,6 +1,23 @@
 <template>
   <div>
     <m-table :data="tableData" :options="tableOptions">
+      <template #date="{ scope }">
+        <el-icon-timer></el-icon-timer>
+        {{ scope.row.date }}
+      </template>
+      <template #name="{ scope }">
+        <el-popover effect="light" trigger="hover" placement="top" width="auto">
+          <template #default>
+            <div style="padding: 10px">
+              <div>name: {{ scope.row.name }}</div>
+              <div>address: {{ scope.row.address }}</div>
+            </div>
+          </template>
+          <template #reference>
+            <el-tag>{{ scope.row.name }}</el-tag>
+          </template>
+        </el-popover>
+      </template>
       <template #action="{ scope }">
         <el-button size="small" type="primary" @click="editClick(scope)">编辑</el-button>
         <el-button size="small" type="danger" @click="deleteClick(scope)">删除</el-button>
@@ -40,11 +57,13 @@ const tableOptions: ITableOptions[] = [
     label: "日期",
     prop: "date",
     align: "center",
+    slot: "date",
   },
   {
     label: "姓名",
     prop: "name",
     align: "center",
+    slot: "name",
   },
   {
     label: "地址",
@@ -67,4 +86,9 @@ const deleteClick = (scope: any) => {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+svg {
+  width: 1em;
+  height: 1em;
+}
+</style>

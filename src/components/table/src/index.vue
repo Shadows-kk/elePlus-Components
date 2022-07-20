@@ -4,42 +4,27 @@
       <template v-for="(item, index) in tableOptions" :key="index">
         <!-- 表格每一列 -->
         <el-table-column
+          v-if="!item.slot"
           :prop="item.prop"
           :label="item.label"
           :align="item.align"
           :width="item.width"
         ></el-table-column>
-
-        <!-- <template v-if="item.label === '地址'">
-          <el-table-column
-            :prop="item.prop"
-            :label="item.label"
-            :align="item.align"
-            :width="item.width"
-          >
-            <template #default="scope">
-              <el-popover placement="top-start" :width="200" trigger="hover">
-                <template #reference>
-                  <div
-                    style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis"
-                  >
-                    {{ scope.row.address }}
-                  </div>
-                </template>
-                <template #default> {{ scope.row.address }}</template>
-              </el-popover>
-            </template>
-          </el-table-column>
-        </template>
-        <template v-else>
-          <el-table-column
-            :prop="item.prop"
-            :label="item.label"
-            :align="item.align"
-            :width="item.width"
-          ></el-table-column>
-        </template> -->
+        <el-table-column
+          v-else
+          :prop="item.prop"
+          :label="item.label"
+          :align="item.align"
+          :width="item.width"
+        >
+          <!-- 配置传了slot -->
+          <template #default="scope">
+            <!-- 动态绑定插槽的名字，根据配置来 -->
+            <slot :name="item.slot" :scope="scope"></slot>
+          </template>
+        </el-table-column>
       </template>
+
       <!-- 操作列 -->
       <el-table-column
         :prop="actionOption.prop"
