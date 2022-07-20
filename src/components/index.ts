@@ -13,6 +13,7 @@ import calendar from './calendar'
 import form from './form'
 import modelForm from './modelForm'
 import table from './table'
+import loading from './loading'
 const components = [
   chooseArea,
   chooseIcon,
@@ -27,7 +28,8 @@ const components = [
   form,
   calendar,
   table,
-  modelForm
+  modelForm,
+  loading
 ]
 export default {
   install(app:App){

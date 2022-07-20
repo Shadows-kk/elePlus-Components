@@ -1,6 +1,14 @@
 <template>
   <div>
-    <el-table :data="data">
+    <el-table
+      style="width: 100%"
+      :data="data"
+      v-loading="isLoading"
+      :element-loading-text="elementLoadingText"
+      :element-loading-background="elementLoadingBackground"
+      :element-loading-svg="elementLoadingSvg"
+      :element-loading-svg-view-box="elementLoadingSvgViewBox"
+    >
       <template v-for="(item, index) in tableOptions" :key="index">
         <!-- 表格每一列 -->
         <el-table-column
@@ -55,11 +63,28 @@ const props = defineProps({
     type: Array as PropType<any[]>,
     required: true,
   },
+  // 加载内容
+  elementLoadingText: {
+    type: String,
+  },
+  // 加载的自定义图标
+  elementLoadingSvg: {
+    type: String,
+  },
+  elementLoadingSvgViewBox: {
+    type: String,
+  },
+  // 背景遮照颜色
+  elementLoadingBackground: {
+    type: String,
+  },
 });
 // 过滤操作选项的配置
-const tableOptions = computed(() => props.options.filter((item) => !item.action));
+let tableOptions = computed(() => props.options.filter((item) => !item.action));
 // 单独拿到操作项的配置
-const actionOption = computed(() => props.options.find((item) => item.action));
+let actionOption = computed(() => props.options.find((item) => item.action));
+// 表格是否在加载中
+let isLoading = computed(() => !props.data || !props.data.length);
 </script>
 
 <style scoped></style>

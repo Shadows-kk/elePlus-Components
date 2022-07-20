@@ -1,6 +1,12 @@
 <template>
   <div>
-    <m-table :data="tableData" :options="tableOptions">
+    <m-table
+      :data="tableData"
+      :options="tableOptions"
+      elementLoadingText="加载中..."
+      :elementLoadingSvg="svg"
+      elementLoadingSvgViewBox="-10, -10, 50, 50"
+    >
       <template #date="{ scope }">
         <el-icon-timer></el-icon-timer>
         {{ scope.row.date }}
@@ -27,31 +33,42 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue";
 import { ITableOptions } from "../../components/table/src/types";
+export interface ItableData {
+  date: string;
+  name: string;
+  address: string;
+}
 
-const tableData = [
-  {
-    date: "2016-05-03",
-    name: "Tom",
-    address:
-      "No. 189, Grove St, Los Angeles. No. 189, Grove St, Los AngelesNo. 189, Grove St, Los AngelesNo.",
-  },
-  {
-    date: "2016-05-02",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-04",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-  {
-    date: "2016-05-01",
-    name: "Tom",
-    address: "No. 189, Grove St, Los Angeles",
-  },
-];
+let tableData = ref<ItableData[]>([]);
+
+setTimeout(() => {
+  tableData.value = [
+    {
+      date: "2016-05-03",
+      name: "Tom",
+      address:
+        "No. 189, Grove St, Los Angeles. No. 189, Grove St, Los AngelesNo. 189, Grove St, Los AngelesNo.",
+    },
+    {
+      date: "2016-05-02",
+      name: "Tom",
+      address: "No. 189, Grove St, Los Angeles",
+    },
+    {
+      date: "2016-05-04",
+      name: "Tom",
+      address: "No. 189, Grove St, Los Angeles",
+    },
+    {
+      date: "2016-05-01",
+      name: "Tom",
+      address: "No. 189, Grove St, Los Angeles",
+    },
+  ];
+}, 1000);
+
 const tableOptions: ITableOptions[] = [
   {
     label: "日期",
@@ -78,6 +95,16 @@ const tableOptions: ITableOptions[] = [
     action: true,
   },
 ];
+const svg = `
+        <path class="path" d="
+          M 30 15
+          L 28 17
+          M 25.61 25.61
+          A 15 15, 0, 0, 1, 15 30
+          A 15 15, 0, 1, 1, 27.99 7.5
+          L 15 15
+        " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
+      `;
 const editClick = (scope: any) => {
   console.log(scope.row);
 };
