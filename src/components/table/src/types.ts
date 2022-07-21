@@ -10,5 +10,7 @@ export interface ITableOptions {
   // 自定义列模版名称
   slot?:string,
   // 是否是操作项
-  action?:boolean
+  action?:boolean,
+  // 是否是可编辑的单元格
+  editable?:boolean
 }

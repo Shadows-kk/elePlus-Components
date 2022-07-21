@@ -6,9 +6,11 @@
       elementLoadingText="加载中..."
       :elementLoadingSvg="svg"
       elementLoadingSvgViewBox="-10, -10, 50, 50"
+      @check="check"
+      editIcon="EditPen"
     >
       <template #date="{ scope }">
-        <el-icon-timer></el-icon-timer>
+        <el-icon-timer class="iconTime"></el-icon-timer>
         {{ scope.row.date }}
       </template>
       <template #name="{ scope }">
@@ -28,6 +30,13 @@
         <el-button size="small" type="primary" @click="editClick(scope)">编辑</el-button>
         <el-button size="small" type="danger" @click="deleteClick(scope)">删除</el-button>
       </template>
+      <!-- （可选）传入自定义的编辑单元格按钮 -->
+      <!-- <template #editCell="{ scope }">
+        <div style="display: flex; margin-left: 10px">
+          <el-button type="primary" size="small" @click="editCell(scope)">修改</el-button>
+          <el-button type="danger" size="small">取消</el-button>
+        </div>
+      </template> -->
     </m-table>
   </div>
 </template>
@@ -42,7 +51,7 @@ export interface ItableData {
 }
 
 let tableData = ref<ItableData[]>([]);
-
+// 定时器模拟数据延迟
 setTimeout(() => {
   tableData.value = [
     {
@@ -74,7 +83,9 @@ const tableOptions: ITableOptions[] = [
     label: "日期",
     prop: "date",
     align: "center",
+    width: 300,
     slot: "date",
+    editable: true,
   },
   {
     label: "姓名",
@@ -86,7 +97,7 @@ const tableOptions: ITableOptions[] = [
     label: "地址",
     prop: "address",
     align: "center",
-    width: 200,
+    editable: true,
   },
   {
     label: "操作",
@@ -111,11 +122,22 @@ const editClick = (scope: any) => {
 const deleteClick = (scope: any) => {
   console.log(scope);
 };
+const check = (scope: any) => {
+  console.log(scope);
+};
+const editCell = (scope) => {
+  console.log(scope);
+};
 </script>
 
 <style scoped>
 svg {
   width: 1em;
   height: 1em;
+}
+.iconTime {
+  position: relative;
+  top: 2px;
+  right: -5px;
 }
 </style>
