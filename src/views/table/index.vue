@@ -6,8 +6,10 @@
       elementLoadingText="加载中..."
       :elementLoadingSvg="svg"
       elementLoadingSvgViewBox="-10, -10, 50, 50"
-      @check="check"
+      @confirm="confirm"
       editIcon="EditPen"
+      isEditRow
+      :editRowIndex="editRowIndex"
     >
       <template #date="{ scope }">
         <el-icon-timer class="iconTime"></el-icon-timer>
@@ -51,6 +53,8 @@ export interface ItableData {
 }
 
 let tableData = ref<ItableData[]>([]);
+// edit是自己取的名字
+let editRowIndex = ref<string>("edit");
 // 定时器模拟数据延迟
 setTimeout(() => {
   tableData.value = [
@@ -106,6 +110,7 @@ const tableOptions: ITableOptions[] = [
     action: true,
   },
 ];
+// loading的svg图标
 const svg = `
         <path class="path" d="
           M 30 15
@@ -116,13 +121,16 @@ const svg = `
           L 15 15
         " style="stroke-width: 4px; fill: rgba(0, 0, 0, 0)"/>
       `;
+// 操作列的编辑按钮
 const editClick = (scope: any) => {
-  console.log(scope.row);
+  // console.log(scope.row);
 };
+// 操作列的删除按钮
 const deleteClick = (scope: any) => {
   console.log(scope);
 };
-const check = (scope: any) => {
+// 自定义单元格的修改确认
+const confirm = (scope: any) => {
   console.log(scope);
 };
 const editCell = (scope) => {

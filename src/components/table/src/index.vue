@@ -2,12 +2,13 @@
   <div>
     <el-table
       style="width: 100%"
-      :data="data"
+      :data="tableData"
       v-loading="isLoading"
       :element-loading-text="elementLoadingText"
       :element-loading-background="elementLoadingBackground"
       :element-loading-svg="elementLoadingSvg"
       :element-loading-svg-view-box="elementLoadingSvgViewBox"
+      @row-click="rowClick"
     >
       <template v-for="(item, index) in tableOptions" :key="index">
         <!-- 表格每一列 -->
@@ -28,10 +29,10 @@
                   <slot v-if="$slots.editCell" name="editCell" :scope="scope"></slot>
                   <!-- 未传入editCell插槽内容 -->
                   <div class="icons" v-else>
-                    <el-icon-check class="check" @click="check(scope)"></el-icon-check>
+                    <el-icon-check class="check" @click="confirm(scope)"></el-icon-check>
                     <el-icon-close
                       class="close"
-                      @click="close(scope, item)"
+                      @click="cancel(scope, item)"
                     ></el-icon-close>
                   </div>
                 </div>
@@ -72,9 +73,10 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, computed, ref } from "vue";
+import { PropType, computed, ref, onMounted, watch } from "vue";
 import { ITableOptions } from "./types";
 import { toLine } from "../../../utils/index";
+import cloneDeep from "lodash/cloneDeep";
 const props = defineProps({
   // 表格的配置
   options: {
@@ -106,12 +108,53 @@ const props = defineProps({
     type: String,
     default: "edit",
   },
+  // 是否可编辑行
+  isEditRow: {
+    type: Boolean,
+    default: false,
+  },
+  // 编辑行按钮标识，用于确定哪一个按钮发生了点击
+  editRowIndex: {
+    type: String,
+    default: "",
+  },
 });
-const emits = defineEmits(["check", "close"]);
+const emits = defineEmits(["confirm", "cancel"]);
 // 单元格的唯一标识
 const editCell = ref<string>("");
 // 存储单元格的初始信息
 let editCellData = ref<string>("");
+// 拷贝一份表格数据
+let tableData = ref<any[]>(cloneDeep(props.data));
+// 拷贝一份按钮标识
+let cloneEditRowIndex = ref<string>("props.editRowIndex");
+// 监听父组件传递过来的数据
+watch(
+  () => props.data,
+  (val) => {
+    tableData.value = cloneDeep(val);
+    tableData.value.map((item) => {
+      // 增加一条数据，代表当前是否是可编辑状态
+      item.rowEdit = false;
+    });
+  },
+  { deep: true }
+);
+// 监听标识改变
+watch(
+  () => props.editRowIndex,
+  (val) => {
+    if (val) cloneEditRowIndex.value = val;
+  }
+);
+// 初始化table的数据是否可编辑
+onMounted(() => {
+  tableData.value.map((item) => {
+    // 增加一条数据，代表当前是否是可编辑状态
+    item.rowEdit = false;
+  });
+});
+
 // 过滤操作选项的配置
 let tableOptions = computed(() => props.options.filter((item) => !item.action));
 // 单独拿到操作项的配置
@@ -125,18 +168,26 @@ const clickEdit = (scope: any, item) => {
   // 保存初始数据
   editCellData.value = scope.row[item.prop];
 };
-const check = (scope: any) => {
-  emits("check", scope);
+const confirm = (scope: any) => {
+  emits("confirm", scope);
   editCell.value = "";
 };
-const close = (scope: any, item: any) => {
-  emits("close", scope);
+const cancel = (scope: any, item: any) => {
+  emits("cancel", scope);
   editCell.value = "";
   // 取消时重新给单元格赋值初始数据
   scope.row[item.prop] = editCellData.value;
 };
+//
 const clickEditCell = () => {
   editCell.value = "";
+};
+// 点击每一行的事件
+const rowClick = (row: any, column: any) => {
+  // 判断当前点击的是否是操作项内容
+  if (column.property === actionOption.value.prop) {
+    console.log("操作项");
+  }
 };
 </script>
 
