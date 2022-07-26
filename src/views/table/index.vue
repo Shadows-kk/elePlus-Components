@@ -32,6 +32,10 @@
         <el-button size="small" type="primary" @click="editClick(scope)">编辑</el-button>
         <el-button size="small" type="danger" @click="deleteClick(scope)">删除</el-button>
       </template>
+      <template #editRow="{ scope }">
+        <el-button size="small" type="primary" @click="editClick(scope)">确认</el-button>
+        <el-button size="small" type="danger" @click="deleteClick(scope)">取消</el-button>
+      </template>
       <!-- （可选）传入自定义的编辑单元格按钮 -->
       <!-- <template #editCell="{ scope }">
         <div style="display: flex; margin-left: 10px">
@@ -54,7 +58,7 @@ export interface ItableData {
 
 let tableData = ref<ItableData[]>([]);
 // edit是自己取的名字
-let editRowIndex = ref<string>("edit");
+let editRowIndex = ref<string>("");
 // 定时器模拟数据延迟
 setTimeout(() => {
   tableData.value = [
@@ -124,6 +128,7 @@ const svg = `
 // 操作列的编辑按钮
 const editClick = (scope: any) => {
   // console.log(scope.row);
+  editRowIndex.value = "edit";
 };
 // 操作列的删除按钮
 const deleteClick = (scope: any) => {
