@@ -6,6 +6,7 @@ import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons-vue'
 import {toLine} from './utils/index'
 import components from './components'
+import './mock'
 
 const app = createApp(App)
 // 全局注册图标 牺牲一点性能 重新命名成以el-icon-xxx开头

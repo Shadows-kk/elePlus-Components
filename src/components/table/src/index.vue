@@ -36,11 +36,11 @@
                     <div class="icons" v-else>
                       <el-icon-check
                         class="check"
-                        @click="confirm(scope)"
+                        @click.stop="confirm(scope)"
                       ></el-icon-check>
                       <el-icon-close
                         class="close"
-                        @click="cancel(scope, item)"
+                        @click.stop="cancel(scope, item)"
                       ></el-icon-close>
                     </div>
                   </div>
@@ -57,7 +57,7 @@
                   :is="`el-icon-${toLine(editIcon)}`"
                   v-if="item.editable"
                   class="edit"
-                  @click="clickEdit(scope, item)"
+                  @click.stop="clickEdit(scope, item)"
                 ></component>
               </template>
             </template>
@@ -118,7 +118,7 @@ const props = defineProps({
     type: String,
     default: "edit",
   },
-  // 是否可编辑行
+  // 表格行是否可编辑行
   isEditRow: {
     type: Boolean,
     default: false,
@@ -129,7 +129,7 @@ const props = defineProps({
     default: "",
   },
 });
-const emits = defineEmits(["confirm", "cancel"]);
+const emits = defineEmits(["confirm", "cancel", "update:editRowIndex"]);
 // 单元格的唯一标识
 const editCell = ref<string>("");
 // 存储单元格的初始信息
@@ -203,8 +203,12 @@ const rowClick = (row: any, column: any) => {
       row.rowEdit = !row.rowEdit;
       // 重置其他数据的isEditRow
       tableData.value.map((item) => {
-        if (item != row) item.rowEdit = false;
+        if (item !== row) item.rowEdit = false;
       });
+      // 再次点击的时候取消编辑状态，重置按钮标识，需要修改父组件数据
+      if (!row.rowEdit) {
+        emits("update:editRowIndex", "");
+      }
     }
   }
 };
