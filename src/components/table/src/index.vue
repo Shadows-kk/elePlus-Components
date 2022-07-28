@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-table
+      v-bind="$attrs"
       style="width: 100%"
       :data="tableData"
       v-loading="isLoading"
@@ -79,6 +80,23 @@
         </template>
       </el-table-column>
     </el-table>
+    <div
+      class="pagination table-pagination-wrapper"
+      v-if="pagination"
+      :style="{
+        justifyContent: paginationJustify,
+      }"
+    >
+      <el-pagination
+        v-model:currentPage="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="pageSizes"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 
@@ -128,8 +146,43 @@ const props = defineProps({
     type: String,
     default: "",
   },
+  // 决定表格是否显示分页
+  pagination: {
+    type: Boolean,
+    default: false,
+  },
+  // 当前页
+  currentPage: {
+    type: Number,
+    default: 1,
+  },
+  // 每一页的数据
+  pageSize: {
+    type: Number,
+    default: 10,
+  },
+  // 每一页数据可选值
+  pageSizes: {
+    type: Array as PropType<number[]>,
+    default: [10, 20, 30, 40],
+  },
+  // 数据总数
+  total: {
+    type: Number,
+  },
+  // 分页器的排列方式
+  paginationAlign: {
+    type: String as PropType<"left" | "center" | "right">,
+    default: "center",
+  },
 });
-const emits = defineEmits(["confirm", "cancel", "update:editRowIndex"]);
+const emits = defineEmits([
+  "confirm",
+  "cancel",
+  "update:editRowIndex",
+  "currentChange",
+  "sizeChange",
+]);
 // 单元格的唯一标识
 const editCell = ref<string>("");
 // 存储单元格的初始信息
@@ -138,6 +191,24 @@ let editCellData = ref<string>("");
 let tableData = ref<any[]>(cloneDeep(props.data));
 // 拷贝一份按钮标识
 let cloneEditRowIndex = ref<string>(props.editRowIndex);
+// 处理分页器的排列方式
+let paginationJustify = computed(() => {
+  // if (props.paginationAlign === "left") {
+  //   return "flex-start";
+  // } else if (props.paginationAlign === "center") {
+  //   return "center";
+  // } else {
+  //   return "flex-end";
+  // }
+  switch (props.paginationAlign) {
+    case "left":
+      return "flex-start";
+    case "center":
+      return "center";
+    case "right":
+      return "flex-end";
+  }
+});
 // 监听父组件传递过来的数据
 watch(
   () => props.data,
@@ -212,6 +283,14 @@ const rowClick = (row: any, column: any) => {
     }
   }
 };
+// 分页器的条数改变
+const handleSizeChange = (val: number) => {
+  emits("sizeChange", val);
+};
+// 分页器的页数改变
+const handleCurrentChange = (val: number) => {
+  emits("currentChange", val);
+};
 </script>
 
 <style scoped lang="scss">
@@ -221,17 +300,29 @@ const rowClick = (row: any, column: any) => {
   left: 8px;
   cursor: pointer;
 }
+
 .icons {
   display: flex;
   margin-left: 10px;
   cursor: pointer;
+
   .check {
     color: #57c22d;
     width: 1em;
     height: 1em;
   }
+
   .close {
     color: #f5525d;
+  }
+}
+
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  .btn-prev,
+  .btn-next .el-icon {
+    display: inline-flex !important;
   }
 }
 </style>

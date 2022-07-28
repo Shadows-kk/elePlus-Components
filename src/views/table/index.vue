@@ -1,6 +1,7 @@
 <template>
   <div>
     <m-table
+      stripe
       :data="tableData"
       :options="tableOptions"
       elementLoadingText="加载中..."
@@ -10,6 +11,13 @@
       editIcon="EditPen"
       isEditRow
       v-model:editRowIndex="editRowIndex"
+      pagination
+      paginationAlign="right"
+      :total="total"
+      :currentPage="current"
+      :pageSize="pageSize"
+      @sizeChange="sizeChange"
+      @currentChange="currentChange"
     >
       <template #date="{ scope }">
         <el-icon-timer class="iconTime"></el-icon-timer>
@@ -48,8 +56,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { ITableOptions } from "../../components/table/src/types";
+import axios from "axios";
 export interface ItableData {
   date: string;
   name: string;
@@ -59,32 +68,14 @@ export interface ItableData {
 let tableData = ref<ItableData[]>([]);
 // edit是自己取的名字
 let editRowIndex = ref<string>("");
-// 定时器模拟数据延迟
-// setTimeout(() => {
-//   tableData.value = [
-//     {
-//       date: "2016-05-03",
-//       name: "Tom",
-//       address: "No. 189, Grove St, Los Angeles. ",
-//     },
-//     {
-//       date: "2016-05-02",
-//       name: "Tom",
-//       address: "No. 189, Grove St, Los Angeles",
-//     },
-//     {
-//       date: "2016-05-04",
-//       name: "Tom",
-//       address: "No. 189, Grove St, Los Angeles",
-//     },
-//     {
-//       date: "2016-05-01",
-//       name: "Tom",
-//       address: "No. 189, Grove St, Los Angeles",
-//     },
-//   ];
-// }, 1000);
 
+// 分页
+let current = ref<number>(1);
+let pageSize = ref<number>(10);
+let total = ref<number>(0);
+onMounted(() => {
+  getTableData();
+});
 const tableOptions: ITableOptions[] = [
   {
     label: "日期",
@@ -139,6 +130,26 @@ const confirm = (scope: any) => {
 };
 const editCell = (scope) => {
   console.log(scope);
+};
+const sizeChange = (val: number) => {
+  pageSize.value = val;
+  getTableData();
+};
+const currentChange = (val: number) => {
+  current.value = val;
+  getTableData();
+};
+// 获取mock数据
+const getTableData = () => {
+  axios
+    .post("/api/list", {
+      current: current.value,
+      pageSize: pageSize.value,
+    })
+    .then((res) => {
+      tableData.value = res.data.data.rows;
+      total.value = res.data.data.total;
+    });
 };
 </script>
 

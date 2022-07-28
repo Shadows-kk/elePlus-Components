@@ -42,3 +42,8 @@ body .el-icon{
   width: 2em;
   height: 2em;
 }
+.table-pagination-wrapper{
+  .el-icon{
+    display: inline-flex!important;
+  }
+}
