@@ -74,7 +74,7 @@ export default defineComponent({
     }
     return () =>{
       return(
-        <el-menu default-active={props.defaultActive} router={props.router} {...attrs}>
+        <el-menu class='menu-icon-svg' default-active={props.defaultActive} router={props.router} {...attrs}>
           {renderMenu(props.data)}
         </el-menu>
       )

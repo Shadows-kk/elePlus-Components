@@ -1,5 +1,10 @@
 <template>
-  <el-popover placement="bottom" :width="300" trigger="click">
+  <el-popover
+    popper-class="notification-poper-class"
+    placement="bottom"
+    :width="300"
+    trigger="click"
+  >
     <template #reference>
       <el-badge :value="value" :max="max" :isDot="isDot">
         <component :is="`el-icon-${toLine(icon)}`"></component>

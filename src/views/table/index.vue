@@ -2,6 +2,7 @@
   <div>
     <m-table
       stripe
+      height="400"
       :data="tableData"
       :options="tableOptions"
       elementLoadingText="加载中..."
