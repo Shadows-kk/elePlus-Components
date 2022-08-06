@@ -5,8 +5,11 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as Icons from '@element-plus/icons-vue'
 import {toLine} from './utils/index'
-import components from './components'
 import './mock'
+// import components from './components'
+// 从打包的lib文件夹中引入组件和样式
+import components from '../lib/kk-ele-plus-components.es.js'
+import '../lib/style.css'
 
 const app = createApp(App)
 // 全局注册图标 牺牲一点性能 重新命名成以el-icon-xxx开头
