@@ -1,0 +1,6 @@
+{
+    "name":"loading",
+    "main":"index.umd.js",
+    "module":"index.es.js",
+    "style":"style.css"
+  }
