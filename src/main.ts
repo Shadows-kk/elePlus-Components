@@ -8,7 +8,7 @@ import {toLine} from './utils/index'
 import './mock'
 // import components from './components'
 // 从打包的lib文件夹中引入全部的组件和样式
-import components from '../lib/kk-ele-plus-components.es.js'
+import components from '../lib/index.es.js'
 import '../lib/style.css'
 // 从打包的lib文件夹中引入单个的组件和样式
 // import chooseIcon from '../lib/chooseIcon/index.es'
