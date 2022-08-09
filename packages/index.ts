@@ -16,6 +16,8 @@ import table from './table'
 import loading from './loading'
 import './style/base.scss'
 import './style/ui.scss'
+import * as Icons from '@element-plus/icons-vue'
+import {toLine} from './utils/index'
 const components = [
   chooseArea,
   chooseIcon,
@@ -38,5 +40,10 @@ export default {
     components.map(item => {
       app.use(item)
     })
+    for(let i in Icons){
+      // 注册组件
+      app.component(`el-icon-${toLine(i)}`,(Icons as any)[i])
+      // console.log((Icons as any)[i]);
+    }
   }
 }
